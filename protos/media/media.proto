@@ -1,0 +1,43 @@
+syntax = "proto3";
+
+package protos.media.v1;
+
+option go_package = "github.com/mangeshhendre/models/protos_media_v1";
+
+option objc_class_prefix = "Media_";
+
+import "google/protobuf/timestamp.proto";
+
+message Device {
+	string operating_system = 1;
+	string operating_system_version = 2;
+	string application = 3;
+	string application_version = 4;
+	string device_name = 5;
+}
+
+message User {
+	string user_id = 1;
+}
+
+
+message Media {
+	string UUID = 1; // This is the string representation of the GUID.
+	string media_type = 2; // use mime-type
+	google.protobuf.Timestamp create_date = 3; // Required always.
+	google.protobuf.Timestamp media_date = 4;// Required always.
+	google.protobuf.Timestamp gps_date = 5; // optional
+	google.protobuf.Timestamp device_date = 6; // optional
+	bytes thumbnail = 7;  // Not required.
+	bytes body = 8;
+	bytes vtag = 8;
+	int64 width = 9;
+	int64 heigth = 10;
+}
+
+message Upload {
+	Device device = 1;
+	User user = 2;
+	Order order = 3;
+	Media media = 5;
+}
