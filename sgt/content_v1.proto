@@ -1,0 +1,107 @@
+syntax = "proto3";
+
+package sgt.content.v1;
+
+option go_package = "golang.sgpdev.com/models/sgt_content_v1";
+
+option objc_class_prefix = "Content_";
+
+import "google/protobuf/timestamp.proto";
+
+message Device {
+	string operating_system = 1;
+	string operating_system_version = 2;
+	string application = 3;
+	string application_version = 4;
+	string device_name = 5;
+}
+
+message User {
+	string user_id = 1;
+}
+
+message Order {
+	int64 order_number = 1;
+	string vendor_code = 2;
+	string work_code = 3;
+	string client_code = 4;
+	// Likely to be extended later.
+}
+
+message Property {
+	int64 property_id = 1;
+	int64 property_loan_id = 2;
+}
+
+message Media {
+	string UUID = 1; // This is the string representation of the GUID.
+	string media_type = 2; // use mime-type
+	google.protobuf.Timestamp create_date = 3; // Required always.
+	google.protobuf.Timestamp media_date = 4;// Required always.
+	google.protobuf.Timestamp gps_date = 5; // optional
+	google.protobuf.Timestamp device_date = 6; // optional
+	bytes thumbnail = 7;  // Not required.
+	bytes body = 8;
+	int64 width = 9;
+	int64 heigth = 10;
+	int64 contractor_id = 11;
+}
+
+message Upload {
+	Device device = 1;
+	User user = 2;
+	Order order = 3;
+	Property property = 4;
+	Media media = 5;
+}
+
+
+
+message Item {
+	int64 imageId = 1;  // This is the serially incrementing ID in imagedetail, ideally populated by a trigger.
+	string imageFileName = 2;   // The filename and stuff.
+	google.protobuf.Timestamp scanDate = 3; // Never provided, should be the moment that the data is added to imagedetail.  Ideally populated by a trigger.
+	google.protobuf.Timestamp imageUTCDate = 4; // Take from gps_date from media
+	google.protobuf.Timestamp imageTakenDate = 5; // take from media_date from media
+	google.protobuf.Timestamp dateCreated = 6; // Take from create_date from media
+	int64 orderNumber = 7;
+	string archived = 8;  // N for all uploads.   Or whatever the protocol is.
+	string category = 9; // This comes from
+	int64 contractorId = 10;  // This is a steaming pile of IDC or GAF.  Remove it for all I care.
+	google.protobuf.Timestamp dateModified = 11;
+	string deptCode = 12; // Null when from video upload service.
+	string descPrefix = 13;  // "Unknown"
+	string descText = 14; // "Unknown"
+	int32 fileSize = 15; // Should be the size.  What are you crazy.
+	int32 imageHeight = 16; // Use the height.
+	int32 imageWidth = 17; // Likewise the width.
+	int32 imageType = 18;  // This is where we put static values for images and videos and documents.  Image = 5.
+	bool imageRotated = 19; // 	What the hell is this?  Not in the table?  Is this the ratio of stuff to other stuff?
+	google.protobuf.Timestamp releaseDate = 20;
+	int32 thumbnailSize = 21; //  (BINGO!)
+	string mimeType = 22;  // Use the real mime type.
+	string webFileName = 23;  // /video000/{first 3}/{second 3}/{remaining}/GUID.ext
+	string generatedImageFilePath = 24;  //NULL
+	string guid = 25;  // The GUID
+}
+
+message ItemMaster {
+	float alititude = 1;
+	google.protobuf.Timestamp date_created = 2;
+	google.protobuf.Timestamp date_modified = 3;
+	google.protobuf.Timestamp image_stamp_date = 4;
+	google.protobuf.Timestamp image_taken_date = 5;
+	google.protobuf.Timestamp image_utc_date = 6;
+	google.protobuf.Timestamp watermark_process_date = 7;
+	float gpsdop = 8;
+	float latitude = 9;
+	float longitude = 10;
+	int64 order_number = 11;
+	int64 imagedetail_id = 12;
+	int64 hash1_parent = 13;
+	int64 hash2_parent = 14;
+	string hash1 = 15;
+	string hash2 = 16;
+	string image_stamp_by = 17;
+	string user_comment = 18;
+}

@@ -1,0 +1,28 @@
+syntax = "proto3";
+
+package services.inspi.v1;
+
+option go_package = "golang.sgpdev.com/models/services_inspi_v1";
+
+import "google/protobuf/timestamp.proto";
+import "sgt/inspi/codes/codes_v1.proto";
+
+service Inspi {
+    rpc SubmitResults (SubmitResultsRequest) returns (SubmitResultsResponse);
+}
+message SubmitResultsRequest {
+    string auth_header = 1;
+    bytes raw_request = 2;
+    int64 order_number = 3;
+    google.protobuf.Timestamp complete_date = 4;
+    string photos_required = 5;
+    string result_xml = 6;
+    string discrepancy_text = 7;
+    string result_json = 8;
+}
+
+message SubmitResultsResponse {
+    sgt.inspi.codes.v1.CodesResultsPost code = 1;
+    string message = 2;
+    int64 result_id = 3;
+}

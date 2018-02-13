@@ -1,0 +1,83 @@
+syntax = "proto3";
+
+package services.search.v2;
+
+option go_package = "golang.sgpdev.com/models/services_search_v2";
+
+import "google/protobuf/timestamp.proto";
+
+service Search {
+    rpc ClientLoan (ClientLoanRequest) returns (SearchResponse); // Always includes current and previous loans
+    rpc ClientLoanCurrent (ClientLoanRequest) returns (SearchResponse); // Will only include where current.
+    rpc Loan (LoanRequest) returns (SearchResponse);
+    rpc InvestorNumber (InvestorNumberRequest) returns (SearchResponse);
+    rpc PropertyLoanID (PropertyLoanIDRequest) returns (SearchResponse);
+    rpc SPIPropertyID (SPIPropertyIDRequest) returns (SearchResponse);
+//    rpc Address (AddressRequest) returns (SearchResponse);
+}
+
+//message AddressRequest {
+//    string address_line_1 = 1; // Like on this value.
+//    string city = 2; // Noone will ever do this.
+//    string state = 3; // Common.
+//    string zip = 4;// Crazy common
+//    string client_code = 5; // Filter if list is too big.
+//}
+
+
+message InvestorNumberRequest {
+    string InvestorNumber = 1;
+}
+
+message LoanRequest {
+    string loan_number = 1;
+}
+
+message ClientLoanRequest {
+    string loan_number = 1;
+    string client_code = 2;
+}
+
+message PropertyLoanIDRequest{
+    string property_loan_id = 1;
+}
+
+message SPIPropertyIDRequest{
+    string spi_property_id = 1;
+}
+
+message SearchResponse {
+    repeated SearchResult results = 1;  // If there are no results found, this is not an exception
+                                        // we will just return an empty array.
+                                        // We should document under what conditions
+                                        // grpc error codes will be generated and the appropriate response
+                                        // to those codes.
+}
+
+message SearchResult {
+    int64 spi_property_id = 1;
+    int64 property_loan_id = 2;
+    string client_code = 3;
+    string loan_number = 4;
+    string loan_type = 5;
+    string occupancy_status = 6; // Luggage
+    string mortgagor_first_name = 7; // Luggage
+    string mortgagor_last_name = 8; // Luggage
+    string address_line_1 = 9;
+    string address_line_2 = 10;
+    string city = 11;
+    string state = 12;
+    string zip = 13;
+    string loan_hash = 14;
+    string investor_code = 15; // Luggage
+    google.protobuf.Timestamp sale_date = 16;
+    google.protobuf.Timestamp first_time_vacancy_date = 17;
+    google.protobuf.Timestamp secure_date = 18;
+    google.protobuf.Timestamp convey_date = 19;
+    string country_code = 20;
+    string retention_record_code = 21;
+    google.protobuf.Timestamp retention_start_date = 22;
+    bool current = 23; // This indicates that this is the loan currently being serviced.
+    google.protobuf.Timestamp effective_start_date = 24;
+    google.protobuf.Timestamp effective_end_date = 25;
+}

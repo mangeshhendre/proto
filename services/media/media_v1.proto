@@ -1,0 +1,42 @@
+syntax = "proto3";
+
+package services.media.v1;
+
+option go_package = "golang.sgpdev.com/models/services_media_v1";
+option objc_class_prefix = "SVC_";
+
+import "sgt/content_v1.proto";
+
+service Media {
+    rpc UploadHeader (UploadHeaderRequest) returns (UploadResponse);
+    rpc UploadBody (stream UploadBodyRequest) returns (UploadResponse);
+    rpc Status (StatusRequest) returns (StatusResponse);
+}
+
+message UploadHeaderRequest {
+    sgt.content.v1.Upload header = 1;
+}
+
+message UploadBodyRequest {
+    string UUID = 1;
+    bytes body = 2;
+}
+
+message UploadRequest {
+    sgt.content.v1.Upload upload = 1;
+}
+
+message UploadResponse {
+    uint32 code = 1;
+    string message = 2; // What do we want here?  I am guessing something like Success/Fail, true/false, unicorns/platypus.
+}
+
+message StatusRequest {
+    repeated string uuids = 1;
+}
+
+message StatusResponse {
+    uint32 code = 1;
+    string message = 2;
+    map <string,string> status_keys = 3;
+}

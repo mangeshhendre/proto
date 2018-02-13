@@ -1,0 +1,9 @@
+syntax = "proto3";
+
+package sgt.inspi.v1;
+
+option go_package = "golang.sgpdev.com/models/sgt_inspi_v1";
+
+message InspiAuthCache {
+    bool authenticated = 1;
+}

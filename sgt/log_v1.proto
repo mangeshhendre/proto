@@ -1,0 +1,92 @@
+syntax = "proto3";
+
+package sgt.log.v1;
+
+option go_package = "golang.sgpdev.com/models/sgt_log_v1";
+
+import "google/protobuf/timestamp.proto";
+
+message LogRequest {
+    int64 id = 1;
+    string host = 2;
+    string application = 3;
+    string parameters = 4;
+    int64 pID = 5;
+    int32 level = 6;
+    string context_primary = 7;
+    string context_secondary = 8;
+    string message = 9;
+    string language = 10;
+    google.protobuf.Timestamp create_date = 11;
+    map <string,string> tags = 12;
+    map <string,string> other_data = 13;
+}
+
+message LogResponse {
+    bool success = 1;
+}
+
+// public long? ID { get; set; }
+// public string Host { get; set; }
+// public string Application { get; set; }
+// public string Parameters { get; set; }
+// public long? PID { get; set; }
+// public int? Level { get; set; }
+// public string ContextPrimary { get; set; }
+// public string ContextSecondary { get; set; }
+// public string Message { get; set; }
+// public string Language { get; set; }
+// public DateTime? CreateDate { get; set; }
+
+// public Dictionary<string,string> Tags { get; set; }
+
+// [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+// public Dictionary<string, string> OtherData { get; set; }
+
+
+
+// //SBLOG
+// var parameters = new List<IDbDataParameter>();
+// parameters.Add(this.GetParameterInput("pI_host", sbLog.Host));
+// parameters.Add(this.GetParameterInput("pI_application", sbLog.Application));
+// parameters.Add(this.GetParameterInput("pI_parameters", sbLog.Parameters));
+// parameters.Add(this.GetParameterInput("pI_pid", sbLog.PID));
+// parameters.Add(this.GetParameterInput("pI_log_level", sbLog.Level));
+// parameters.Add(this.GetParameterInput("pI_message", Truncate(sbLog.Message, 4000)));
+// parameters.Add(this.GetParameterInput("pI_context_primary", sbLog.ContextPrimary));
+// parameters.Add(this.GetParameterInput("pI_context_secondary", sbLog.ContextSecondary));
+// parameters.Add(this.GetParameterInput("pI_language", sbLog.Language));
+// parameters.Add(this.GetParameterInput("pI_exception_message", sbLog.OtherData.ContainsKey("ExceptionMessage")  ? Truncate(sbLog.OtherData["ExceptionMessage"], 4000) : null));
+// parameters.Add(this.GetParameterInput("pI_exception_stack_trace", sbLog.OtherData.ContainsKey("ExceptionStackTrace") ? Truncate(sbLog.OtherData["ExceptionStackTrace"], 4000) : null));
+// parameters.Add(this.GetParameterInput("pI_inner_exception_message", sbLog.OtherData.ContainsKey("InnerExceptionMessage") ? Truncate(sbLog.OtherData["InnerExceptionMessage"], 4000) : null));
+// parameters.Add(this.GetParameterInput("pI_generic_worker_version", sbLog.OtherData.ContainsKey("GenericWorkerVersion") ? Truncate(sbLog.OtherData["GenericWorkerVersion"], 1000) : null));
+// parameters.Add(this.GetParameterInput("pI_workhandler_version", sbLog.OtherData.ContainsKey("WorkHandlerVersion") ? Truncate(sbLog.OtherData["WorkHandlerVersion"], 1000) : null));
+// parameters.Add(this.GetParameterInput("pI_generic_poller_version", sbLog.OtherData.ContainsKey("GenericPollerVersion") ? Truncate(sbLog.OtherData["GenericPollerVersion"], 1000) : null));
+// parameters.Add(this.GetParameterInput("pI_pollhandler_version", sbLog.OtherData.ContainsKey("PollHandlerVersion") ? Truncate(sbLog.OtherData["PollHandlerVersion"], 1000) : null));
+// parameters.Add(this.GetParameterInput("pI_headend_version", sbLog.OtherData.ContainsKey("HeadEndVersion") ? Truncate(sbLog.OtherData["HeadEndVersion"], 1000) : null));
+// parameters.Add(this.GetParameterInput("pI_queue_name", sbLog.OtherData.ContainsKey("QueueName") ? Truncate(sbLog.OtherData["QueueName"], 1000) : null));
+// parameters.Add(this.GetParameterInput("pI_poller_name", sbLog.OtherData.ContainsKey("PollerName") ? Truncate(sbLog.OtherData["PollerName"], 1000) : null));
+// parameters.Add(this.GetParameterInput("pI_instance_id", sbLog.OtherData.ContainsKey("InstanceId") ? Truncate(sbLog.OtherData["InstanceId"], 1000) : null));
+// parameters.Add(this.GetParameterInput("pI_trace_id", sbLog.OtherData.ContainsKey("TraceId") ? Truncate(sbLog.OtherData["TraceId"], 1000) : null));
+
+// AddCommonParameters(parameters);
+// ExecuteNonQuery("sblog_pkg.Add_sblog", parameters.ToArray());
+// CheckCommonParameters(parameters);
+
+// returnValue = parameters.First(p => p.ParameterName.Equals("pO_RtnCode")).GetValue<long>();
+
+// //**************
+// //SBLOG_TAGS
+// if (sbLog.Tags != null)
+// {
+//     foreach (var de in sbLog.Tags)
+//     {
+//         parameters = new List<IDbDataParameter>();
+//         parameters.Add(this.GetParameterInput("pI_sblog_id_fk", returnValue.Value));
+//         parameters.Add(this.GetParameterInput("pI_tag_name", de.Key));
+//         parameters.Add(this.GetParameterInput("pI_tag_value", de.Value == null || de.Value.Length <= 1000 ? de.Value : de.Value.Substring(0, 1000)));
+
+//         AddCommonParameters(parameters);
+//         ExecuteNonQuery("sblog_pkg.Add_sblog_tag", parameters.ToArray());
+//         CheckCommonParameters(parameters);
+//     }

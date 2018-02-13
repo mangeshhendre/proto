@@ -1,0 +1,123 @@
+syntax = "proto3";
+
+package sgt.audit.questions.v1;
+
+option go_package = "golang.sgpdev.com/models/sgt_audit_questions_v1";
+
+import "google/protobuf/timestamp.proto";
+
+// A property is a hash of assets.
+message Property {
+    map<string, Asset> assets = 1;
+}
+
+// An asset is a hash by question key of complete answers.
+message Asset {
+    map<string, Question> questions = 1;
+}
+
+// This is the base question, it may have answers.
+message Question {
+    int64 parent_submission_id = 1;
+    int64 ext_id = 2;
+    string ext_tag = 3;
+    int64 property_loan_id = 4;
+    int64 asset_id = 5;
+    int64 order_number = 6;
+    string question_key = 7;
+    repeated Answer answers = 8;
+    // @inject_tag: db_mapper:"spipropertyid"
+    int64 property_id = 9;
+    string asset_name = 10;
+    google.protobuf.Timestamp question_date = 11;  // The date the question was set.
+    google.protobuf.Timestamp parent_submission_date = 12;
+}
+
+// This is an answer subordinate to a question.
+message Answer {
+    int64 id = 1; // Null for this case // Did we decide to deprecate this?
+    string value = 2; // "VWTEST-CS417"
+    string key = 3; // Null for loan number
+    string display_text = 4; // Not currently in use. // Deprecate.
+    int64 submission_id = 5;
+    google.protobuf.Timestamp submission_date = 6;
+}
+
+// This is a one to one mapping to the result of the query we will run to get answers.
+message DBResultRow {
+    int64 parent_submission_id = 1;
+    int64 ext_id = 2;
+    string ext_tag = 3;
+    int64 property_loan_id = 4;
+    int64 asset_id = 5;
+    int64 order_number = 6;
+    string question_key = 7;
+    string answer_value = 8; // "VWTEST-CS417"
+    string answer_key = 9; // Null for loan number
+    // @inject_tag: db_mapper:"spipropertyid"
+    int64 property_id = 10;
+    string asset_name = 11;
+    google.protobuf.Timestamp question_date = 12; // The date the question was set.
+    google.protobuf.Timestamp parent_submission_date = 13;
+    int64 submission_id = 14;
+    google.protobuf.Timestamp submission_date = 15;
+}
+
+// Make managing a collection easier.
+message DBResults {
+    repeated DBResultRow Rows = 1;
+}
+
+message SubmissionInfo {
+    string submission_type = 1; // own_sn_master.work_orders or own_sn_master.property_loans
+    int64   order_number = 2;   // The work order number
+    google.protobuf.Timestamp submission_date = 3; // The date of the submission.
+}
+
+// For UI, may not be necessary.
+// message Display {
+//     string loan_type = 1;
+//     string system = 2;
+//     repeated Question groups = 3;
+// }
+
+// message Question {
+//     string key = 1;
+//     int64 sort = 2;
+//     int64 tier = 3;
+//     bool display_no_answer = 4;
+//     repeated Question questions = 5;
+// }
+
+
+
+/* 
+{
+                "ParentSubmissionId": 331,
+                "ExtId": 15262484,
+                "ExtTag": "own_sn_master.property_loans",
+                "Answers": [{
+                                "Id": "",
+                                "Value": "VWTEST-CS417",
+                                "Key": ""
+                        }
+                ],
+                "PropertyLoanId": 15262484,
+                "AssetId": 85150888,
+                "OrderNumber": null,
+                "Question": {
+                        "Id": 1000,
+                        "KeyId": 11,
+                        "Key": "Property.LoanNumber",
+                        "Text": "Loan Number",
+                        "Type": "Text",
+                        "ViewPermission": "Audit:ViewLoanNumber",
+                        "EditPermission": null,
+                        "OverridePermission": null
+                },
+                "Sort": 1,
+                "Tier": 1,
+                "AvailableAnswers": null
+        }
+
+*/

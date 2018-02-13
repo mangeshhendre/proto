@@ -1,0 +1,80 @@
+syntax = "proto3";
+
+package services.luggage.v1;
+
+option go_package = "golang.sgpdev.com/models/services_luggage_v1";
+
+import "sgt/cards/cards_v1.proto";
+import "sgt/eim/eim_v1.proto";
+import "sgt/audit/questions_v1.proto";
+import "sgt/audit/questions/lite_v1.proto";
+
+service Luggage {
+    // Full Property Records
+    rpc RetrieveWorkorderByOrderNumber (PropertyLoanIDRequest) returns (PropertyIDResponse);
+    rpc RetrievePropertyByPropertyID (PropertyLoanIDRequest) returns (PropertyIDResponse);
+    rpc RetrieveWorkOrder (PropertyLoanIDRequest) returns (PropertyIDResponse);
+    // Lite Property Records
+    rpc LiteByOrderNumber (PropertyLoanIDRequest) returns (LuggageLiteResponse);
+    rpc LiteByPropertyLoanID (PropertyLoanIDRequest) returns (LuggageLiteResponse);
+    // Cards Property Records
+    rpc RetrieveCardsProperty (PropertyLoanIDRequest) returns (CardsPropertyResponse);
+    rpc RetrieveCardsOrder (PropertyLoanIDRequest) returns (CardsPropertyResponse);
+    // EIM Property Records
+    rpc RetrieveEIMPropertyLoan (PropertyLoanIDRequest) returns (EIMPropertyResponse);
+    rpc RetrieveEIMOrder (PropertyLoanIDRequest) returns (EIMPropertyResponse);
+}
+
+// Corrected names, should not be using property_id.
+message PropertyLoanIDRequest {
+    int64 property_loan_id = 1;
+    int64 order_number = 2;
+    bool include_bids = 3;
+    bool include_damages = 4;
+    bool include_tasks = 5;
+    string system_name = 6; // eg: Cards, VendorWeb, INSPI
+}
+
+message LuggageLiteResponse {
+    sgt.audit.questions.lite.v1.Property property_record_lite = 1;
+    // Add Bids
+    // Add Damages
+    // Add Completed Tasks
+}
+
+message PropertyIDResponse {
+    sgt.audit.questions.v1.Property property_record = 1;
+    // Add Bids
+    // Add Damages
+    // Add Completed Tasks
+}
+
+message CardsPropertyRequest {
+    int64 property_loan_id = 1;
+    int64 order_number = 2;
+    sgt.audit.questions.lite.v1.Property property = 3;
+    bool include_bids = 4;
+    bool include_damages = 5;
+    bool include_tasks = 6;
+}
+
+
+message CardsPropertyResponse {
+    sgt.cards.v1.cproperty cards_property = 1;
+    sgt.cards.v1.cloan cards_loan = 2;
+    sgt.cards.v1.cworkorder cards_order = 3;
+}
+
+message EIMPropertyRequest {
+    int64 property_loan_id = 1;
+    int64 order_number = 2;
+    sgt.audit.questions.lite.v1.Property property = 3;
+    bool include_bids = 4;
+    bool include_damages = 5;
+    bool include_tasks = 6;
+}
+
+message EIMPropertyResponse {
+    sgt.eim.v1.loan eim_loan = 1;
+    sgt.eim.v1.workorder eim_order = 2;
+}
