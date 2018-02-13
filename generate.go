@@ -3,7 +3,7 @@ package main
 import "fmt"
 
 // Base models
-//go:generate protoc --go_out=$GOPATH/src protos/cache.proto
+//go:generate protoc --go_out=$GOPATH/src protos/cache_v1.proto
 
 // System specific models.
 //go:generate protoc --go_out=$GOPATH/src protos/media/media_v1.proto

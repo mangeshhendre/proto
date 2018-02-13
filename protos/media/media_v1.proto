@@ -30,14 +30,13 @@ message Media {
 	google.protobuf.Timestamp device_date = 6; // optional
 	bytes thumbnail = 7;  // Not required.
 	bytes body = 8;
-	bytes vtag = 8;
-	int64 width = 9;
-	int64 heigth = 10;
+	bytes vtag = 9;
+	int64 width = 10;
+	int64 heigth = 11;
 }
 
 message Upload {
 	Device device = 1;
 	User user = 2;
-	Order order = 3;
-	Media media = 5;
+	Media media = 3;
 }
