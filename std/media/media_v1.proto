@@ -1,8 +1,8 @@
 syntax = "proto3";
 
-package protos.media.v1;
+package std.media.v1;
 
-option go_package = "github.com/mangeshhendre/models/protos_media_v1";
+option go_package = "github.com/mangeshhendre/models/std_media_v1";
 
 option objc_class_prefix = "Media_";
 

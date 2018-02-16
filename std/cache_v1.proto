@@ -1,8 +1,8 @@
 syntax = "proto3";
 
-package sgt.cache.v1;
+package std.cache.v1;
 
-option go_package = "golang.sgpdev.com/models/sgt_cache_v1";
+option go_package = "github.com/mangeshhendre/models/std_cache_v1";
 
 message Item {
 	string key = 1;

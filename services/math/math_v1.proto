@@ -11,10 +11,10 @@ service Math {
 }
 
 message MathRequest {
-    float number1 = 1;
-    float number2 = 2;  
+    double number1 = 1;
+    double number2 = 2;  
 }
 
 message MathResponse {
-    float result = 1;
+    double result = 1;
 }

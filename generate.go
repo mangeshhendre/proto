@@ -3,10 +3,10 @@ package main
 import "fmt"
 
 // Base models
-//go:generate protoc --go_out=$GOPATH/src protos/cache_v1.proto
+//go:generate protoc --go_out=$GOPATH/src std/cache_v1.proto
 
 // System specific models.
-//go:generate protoc --go_out=$GOPATH/src protos/media/media_v1.proto
+//go:generate protoc --go_out=$GOPATH/src std/media/media_v1.proto
 
 // Services
 //go:generate protoc --go_out=plugins=grpc:$GOPATH/src services/math/math_v1.proto
